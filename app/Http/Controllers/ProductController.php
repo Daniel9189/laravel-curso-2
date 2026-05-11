@@ -14,7 +14,17 @@ class ProductController extends Controller
     {
         // $products = Product::all();
         // return dd($products);
-        return view('welcome');
+        $nome = 'Daniel Rocha de Brito';
+        $idade = 18;
+        $html = '<h1>Olá, seja bem-vindo!</h1>';
+
+        return view('site.empresa', compact('nome', 'idade', 'html'));
+        
+        // return view('site.empresa', [
+        //     'nome' => $nome,
+        //     'idade' => $idade,
+        //     'html' => $html
+        // ]);
     }
 
     /**
