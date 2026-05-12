@@ -3,5 +3,11 @@
 @section('title', 'Home Page')
 
 @section('conteudo')
-    <h1>A home foi localizada</h1>
+
+
+{{-- isso é um comentário --}}
+
+{{-- isset($nome) ? 'existe' : 'não existe' --}}
+
+{{ $teste ?? 'padrão'}}
 @endsection
