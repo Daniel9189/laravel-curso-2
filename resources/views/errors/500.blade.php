@@ -1,0 +1,1 @@
+Vixe! Deu erro 500! O servidor encontrou um erro inesperado e não conseguiu processar a solicitação. Tente novamente mais tarde ou entre em contato com o suporte técnico se o problema persistir.
