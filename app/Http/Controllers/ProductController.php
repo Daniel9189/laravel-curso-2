@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+
 class ProductController extends Controller
 {
     /**
@@ -12,15 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        // $products = Product::all();
-        // return dd($products);
-        $nome = 'Larissa';
-        $idade = 51;
-        $html = '<h1>Olá, seja bem-vindo!</h1>';
-        $frutasQueEuGosto = ['Macã', 'Laraja', 'Melão', 'Melancia', 'Uva', 'Maracujá', 'Abacate', 'Pera', 'Manga'];
-        $frutasQueEuNaoGosto = [];
-
-        return view('site.home', compact('nome', 'idade', 'html', 'frutasQueEuGosto', 'frutasQueEuNaoGosto'));
+        $products = Product::query()->paginate();
+        
+        return view('site.home', compact('products'));
         
         // return view('site.empresa', [
         //     'nome' => $nome,

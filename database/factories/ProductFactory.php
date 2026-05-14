@@ -11,6 +11,7 @@ use App\Models\Categoria;
 /**
  * @extends Factory<Product>
  */
+
 class ProductFactory extends Factory
 {
     /**
@@ -26,7 +27,7 @@ class ProductFactory extends Factory
             'descricao' => $this->faker->paragraph,
             'preco' => $this->faker->randomNumber(2),
             'slug' => Str::slug($nome),
-            'imagem' => $this->faker->imageUrl(400, 400),
+            'imagem' => 'https://picsum.photos/400/400?random=' . $this->faker->unique()->randomNumber(),
             'id_user' => User::factory(),
             'id_categoria' => Categoria::factory()
         ];

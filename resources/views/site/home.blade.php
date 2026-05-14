@@ -4,26 +4,26 @@
 
 @section('conteudo')
 
-@include('includes.mensagem', ['titulo' => 'Mensagem Importante'])
+<div class="row container" style="display: flex; flex-wrap: wrap;">
+    @foreach ($products as $product)
+    <div class="col s12 m4 container" style="display: flex;">
+        <div class="card">
+            <div class="card-image" style="flex: 1;">
+                <img src="{{ $product->imagem }}">
+                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">visibility</i></a>
+            </div>
+            <div class="card-content">
+                <span class="card-title">{{ $product->nome }}</span>
+                <p>{{ Str::limit($product->descricao, 20) }}</p>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
-@component('components.sidebar')
-    @slot('titulo')
-        Let's go, Brasil!
-    @endslot
+</div>
 
-    @slot('paragrafo')
-        World Cup is coming!
-    @endslot
-    @endcomponent
+<div class="row center">
+    {{ $products->links('custom.pagination') }}
+</div>
 
 @endsection
-
-@push('style')
-    <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-@endpush
-
-@push('script')
-    <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-@endpush
