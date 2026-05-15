@@ -12,4 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+
+    protected $table = 'products';
+
+    public function user() {
+        return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function categoria() {
+        return $this->belongsTo(Categoria::class, 'id_categoria');
+    }
 }

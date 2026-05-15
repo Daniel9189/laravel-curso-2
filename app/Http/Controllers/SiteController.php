@@ -12,11 +12,12 @@ class SiteController extends Controller
         $products = Product::query()->paginate();
         
         return view('site.home', compact('products'));
+    }
+
+    public function details(String $slug) {
+        $product = Product::query()->where('slug', $slug)->first();
+
+        return view('site.details', compact('product'));
         
-        // return view('site.empresa', [
-        //     'nome' => $nome,
-        //     'idade' => $idade,
-        //     'html' => $html
-        // ]);
     }
 }
