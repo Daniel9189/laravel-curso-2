@@ -17,6 +17,12 @@
         @endforeach
     </ul>
 
+    <ul id='dropdown2' class='dropdown-content'>
+        
+        <li><a href="{{ route('admin.dashboard') }}">Minha Conta</a></li>
+        
+    </ul>
+
     <nav class="green">
         <div class="nav-wrapper container">
             <a href="#" class="brand-logo center">Curso Laravel</a>
@@ -24,6 +30,10 @@
                 <li><a href="{{ route('site.index') }}">Home</a></li>
                 <li><a href="" class="dropdown-trigger" data-target="dropdown1">Categorias <i class='material-icons right'>expand_more</i></a></li>
                 <li><a href="{{ route('site.carrinho') }}">Carrinho <span class="new badge blue" data-badge-caption="{{ \App\Facades\MeuCarrinho::getTotalQuantity() }}"></span></a></li>
+            </ul>
+
+            <ul id="nav-mobile" class="right">
+                <li><a href="" class="dropdown-trigger" data-target="dropdown2">Olá, {{ auth()->user()->firstName }}<i class='material-icons right'>expand_more</i></a></li>
             </ul>
         </div>
     </nav>
