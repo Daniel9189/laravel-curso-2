@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CarrinhoController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
@@ -22,3 +24,9 @@ Route::delete('/carrinho/{id}', [CarrinhoController::class, 'removeCarrinho'])->
 Route::put('/carrinho/{id}', [CarrinhoController::class, 'atualizaCarrinho'])->name('site.atualizacarrinho');
 
 Route::delete('/carrinho', [CarrinhoController::class, 'limpaCarrinho'])->name('site.limpacarrinho');
+
+Route::view('/login', 'login.form')->name('login.form');
+
+Route::post('/auth', [LoginController::class, 'auth'])->name('login.auth');
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');

@@ -11,7 +11,8 @@ class CarrinhoController extends Controller
     public function carrinhoLista() {
         $itens = MeuCarrinho::getItens();
         $quantidadeTotalItens = MeuCarrinho::getTotalQuantity();
-        return view('site.carrinho', compact('itens', 'quantidadeTotalItens'));
+        $valorTotal = MeuCarrinho::getTotalValue();
+        return view('site.carrinho', compact('itens', 'quantidadeTotalItens', 'valorTotal'));
     }
 
     public function adicionaCarrinho(Request $request) {
@@ -20,7 +21,7 @@ class CarrinhoController extends Controller
             'id' => $request->id,
             'name' => $request->name,
             'price' => (float) $request->price,
-            'quantity' => (int) $request->qnt,
+            'quantity' => (int) abs($request->qnt),
             'image' => $request->img
         ]);
 
@@ -38,7 +39,7 @@ class CarrinhoController extends Controller
     {
         $novaQuantidade = (int) $request->input('quantity');
 
-        MeuCarrinho::update($id, $novaQuantidade);
+        MeuCarrinho::update($id, abs($novaQuantidade));
 
         return redirect()->route('site.carrinho')->with('success', 'Quantidade Atualizada.');
     }

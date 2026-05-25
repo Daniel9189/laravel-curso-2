@@ -23,51 +23,61 @@
         @endif
     </div>
 
-    <div class="row container" style="display: flex; flex-wrap: wrap;">
+    <div class="row container">
     
 
-        <h4>Seu carrinho possui {{ $quantidadeTotalItens }} produtos.</h4>
+        @if ($quantidadeTotalItens == 0)
+            <div class="card orange darken-1 row">
+                <div class="card-content white-text">
+                    <span class="card-title">Seu carrinho está vazio.</span>
+                    <p>Aproveite nossas promoções!</p>
+                </div>
+            </div>
+        @else
+            <h4>Seu carrinho possui {{ $quantidadeTotalItens }} produtos.</h4>
 
-        <table class="highlight responsive-table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Nome</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            
-            @foreach ($itens as $item)
-                <tbody>
+            <table class="highlight responsive-table">
+                <thead>
                     <tr>
-                        <td><img src="{{ $item->image }}" alt="" width="100" class="responsive-img circle"></td>
-                        <td>{{ $item->name }}</td>
-                        <td>R$ {{ number_format($item->price, 2, ',', '.') }}</td>
-                        
-                        {{-- Botão Atualizar--}}
-                        <form action="{{ route('site.atualizacarrinho', ['id'=>$item->id]) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-                            <td><input type="number" style="width: 60px; font-weight: bold;" class="white center" name="quantity" value="{{ $item->quantity }}"></td>
-                            
-                            <td>
-                                <button class="btn-floating waves-effect waves-light orange"><i class="material-icons">refresh</i></button>
-                        </form>
-
-                                {{-- Botão Remover--}}
-                                <form action="{{ route('site.removecarrinho', $item->id) }}" method="POST" enctype="multipart/form-data">
-                                    <br>
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></button>
-                                </form>
-                            </td>
+                        <th></th>
+                        <th>Nome</th>
+                        <th>Preço</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
                     </tr>
-                </tbody>
-            @endforeach
-        </table>
+                </thead>
+                
+                @foreach ($itens as $item)
+                    <tbody>
+                        <tr>
+                            <td><img src="{{ $item->image }}" alt="" width="100" class="responsive-img circle"></td>
+                            <td>{{ $item->name }}</td>
+                            <td>R$ {{ number_format($item->price, 2, ',', '.') }}</td>
+                            
+                            {{-- Botão Atualizar--}}
+                            <form action="{{ route('site.atualizacarrinho', ['id'=>$item->id]) }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('PUT')
+                                <td><input type="number" style="width: 60px; font-weight: bold;" class="white center" min="0" name="quantity" value="{{ $item->quantity }}"></td>
+                                
+                                <td>
+                                    <button class="btn-floating waves-effect waves-light orange"><i class="material-icons">refresh</i></button>
+                            </form>
+
+                                    {{-- Botão Remover--}}
+                                    <form action="{{ route('site.removecarrinho', $item->id) }}" method="POST" enctype="multipart/form-data">
+                                        <br>
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn-floating waves-effect waves-light red"><i class="material-icons">delete</i></button>
+                                    </form>
+                                </td>
+                        </tr>
+                    </tbody>
+                @endforeach
+            </table>
+            <h5>Valor total: R$ {{ number_format($valorTotal, 2, ',', '.')}}</h5>
+        @endif
         
         <div class="row container center">
             <br>

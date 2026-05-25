@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Session;
 
 class CartService
 {
@@ -11,7 +12,7 @@ class CartService
 
     public function getItens()
     {
-        $meusProdutos = session()->get($this->sessionKey, []);
+        $meusProdutos = Session::get($this->sessionKey, []);
 
         $itensObjetos = array_map(function($item) {
             return (object) $item;
@@ -23,7 +24,7 @@ class CartService
 
     public function add(array $product)
     {
-        $carrinho = session()->get($this->sessionKey, []);
+        $carrinho = Session::get($this->sessionKey, []);
         $id = $product['id'];
 
         if(isset($carrinho[$id])) {
@@ -32,7 +33,7 @@ class CartService
             $carrinho[$id] = $product;
         }
 
-        session()->put($this->sessionKey, $carrinho);
+        Session::put($this->sessionKey, $carrinho);
     }
 
 
@@ -41,7 +42,7 @@ class CartService
         $carrinho = $this->getItens();
         if(isset($carrinho[$id])) {
             unset($carrinho[$id]);
-            session()->put($this->sessionKey, $carrinho);
+            Session::put($this->sessionKey, $carrinho);
         }   
 
     }    
@@ -51,7 +52,7 @@ class CartService
     {
         $total = 0;
         foreach ($this->getItens() as $item) {
-            $total += $item['price'] * $item['quantity'];
+            $total += $item->price * $item->quantity;
         }
         return $total;
     }
@@ -66,7 +67,7 @@ class CartService
 
     public function update(int $id, int $novaQuantidade)
     {
-        $carrinho = session()->get($this->sessionKey, []);
+        $carrinho = Session::get($this->sessionKey, []);
         foreach ($carrinho as $key => $item) {
             if ($item['id'] == $id) {
                 if ($novaQuantidade <= 0) {
@@ -77,12 +78,12 @@ class CartService
                 break;
             }
         }
-        session()->put($this->sessionKey, $carrinho);
+        Session::put($this->sessionKey, $carrinho);
     }
 
 
     public function clear()
     {
-        session()->forget($this->sessionKey);
+        Session::forget($this->sessionKey);
     }
 }

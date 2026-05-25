@@ -19,7 +19,7 @@
             <input type="hidden" name="id" value="{{ $product->id }}">
             <input type="hidden" name="name" value="{{ $product->nome}}">
             <input type="hidden" name="price" value="{{ $product->preco }}'">
-            <input type="number" name="qnt" value="1">
+            <input type="number" name="qnt" value="1" min="1">
             <input type="hidden" name="img" value="{{ $product->imagem }}">
             <button class="btn orange btn-large"> Comprar </button>
         </form>
