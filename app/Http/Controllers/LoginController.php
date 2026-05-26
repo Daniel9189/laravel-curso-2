@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
 
 class LoginController extends Controller
 {
@@ -24,5 +25,12 @@ class LoginController extends Controller
         } else {
             return redirect()->back()->with('erro', 'E-mail ou senha inválida.');
         }
+    }
+    
+    public function logout(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('site.index');
     }
 }
