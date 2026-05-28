@@ -5,9 +5,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SiteController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('products', ProductController::class);
+
+Route::resource('users', UserController::class);
 
 Route::get('/', [SiteController::class, 'index'])->name('site.index');
 
@@ -31,4 +34,6 @@ Route::post('/auth', [LoginController::class, 'auth'])->name('login.auth');
 
 Route::get('/logout', [LoginController::class, 'logout'])->name('login.logout');
 
-Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware('auth');
+Route::get('/register', [LoginController::class, 'create'])->name('login.create');
+
+Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard')->middleware(['auth', 'checkemail']);
