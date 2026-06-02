@@ -6,6 +6,7 @@ use App\Facades\MeuCarrinho;
 use App\Models\Categoria;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SiteController extends Controller
 {
@@ -19,7 +20,7 @@ class SiteController extends Controller
 
     public function details(String $slug) {
         $product = Product::query()->where('slug', $slug)->first(); 
-        
+        Gate::authorize('verProduto', $product);
         return view('site.details', compact('product'));
         
     }

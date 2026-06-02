@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Categoria;
+use App\Models\Product;
+use App\Models\User;
 use App\Services\CartService;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $categoriasMenu = Categoria::all();
         view()->share('categoriasMenu', $categoriasMenu);
+
+        Gate::define('ver-produto', function(User $user, Product $product) {
+            return $user->id === $product->id_user;
+        });
 
     }
 }
