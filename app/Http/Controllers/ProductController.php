@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categoria;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 
 class ProductController extends Controller
@@ -14,8 +16,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::query()->paginate(5);
+        $categorias = Categoria::all();
         
-        return view('admin.products', compact('products'));
+        return view('admin.products', compact('products', 'categorias'));
         
         // return view('site.empresa', [
         //     'nome' => $nome,
@@ -37,7 +40,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = $request->validate([
+            'id_user' => 'required|integer',
+            'nome' => 'required|string|max:255',
+            'preco' => 'required|numeric',
+            'descricao' => 'required|string',
+            'id_categoria' => 'required|integer',
+            'imagem' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+        
+        if ($request->hasFile('imagem')) {
+            $product['imagem'] = $request->imagem->store('products');
+        }
+
+        $product['slug'] = Str::slug($request->nome);
+        
+        $product['id_user'] = auth()->user()->id;
+        
+        Product::create($product);
+        
+        return to_route('admin.products')->with('success', 'Produto cadastrado com sucesso.');
+        
     }
 
     /**
@@ -69,6 +92,7 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Product::destroy($id);
+        return to_route('admin.products')->with('success', 'O produto foi excluido com sucesso.');
     }
 }
