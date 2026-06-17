@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Services\CartService;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,8 +28,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         
-        $categoriasMenu = Categoria::all();
-        view()->share('categoriasMenu', $categoriasMenu);
+        View::composer('*', function ($view) {
+            $categoriasMenu = Categoria::all();
+            $view->with('categoriasMenu', $categoriasMenu);
+        });
 
         Gate::define('ver-produto', function(User $user, Product $product) {
             return $user->id === $product->id_user;
